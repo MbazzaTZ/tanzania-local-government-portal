@@ -1,0 +1,159 @@
+/*
+================================================================
+styles.css for Tanzania Local Government Portal
+================================================================
+This file sets up the global styles and custom utilities for the application.
+It is designed to work with the Tailwind CSS framework.
+*/
+
+/*
+================================================================
+1. TAILWIND CSS DIRECTIVES
+----------------------------------------------------------------
+These lines are essential. They inject Tailwind's base styles,
+component classes, and utility classes into your CSS.
+This must be at the top of the file.
+================================================================
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+================================================================
+2. GLOBAL STYLES & COLOR PALETTE
+----------------------------------------------------------------
+We define custom CSS variables for our color palette here.
+This makes it easy to maintain a consistent color scheme inspired
+by the Tanzanian flag.
+================================================================
+*/
+@layer base {
+  :root {
+    /* Color Palette (Inspired by Tanzanian Flag) */
+    --color-primary: #1eb53a; /* Green */
+    --color-secondary: #fcd116; /* Yellow */
+    --color-accent: #00a3dd; /* Blue */
+    --color-dark: #000000; /* Black */
+
+    /* Neutral Colors */
+    --color-text-base: #374151; /* Gray-700 */
+    --color-text-muted: #6b7280; /* Gray-500 */
+    --color-bg-base: #f9fafb; /* Gray-50 */
+    --color-bg-card: #ffffff; /* White */
+    --color-border: #e5e7eb; /* Gray-200 */
+  }
+
+  /* Apply base styles to the whole application */
+  body {
+    @apply font-sans antialiased; /* Use a clean, sans-serif font */
+    color: var(--color-text-base);
+    background-color: var(--color-bg-base);
+    /* Ensures smooth scrolling behavior */
+    scroll-behavior: smooth;
+  }
+
+  /* Add subtle transitions to links for a dynamic feel */
+  a {
+    @apply transition-colors duration-200;
+  }
+}
+
+/*
+================================================================
+3. CUSTOM REUSABLE COMPONENTS
+----------------------------------------------------------------
+Here, we create custom classes using Tailwind's @apply directive.
+This lets us build reusable components like buttons and cards
+without repeating the same utility classes everywhere in the HTML.
+================================================================
+*/
+@layer components {
+  /* A base card style for consistent containers */
+  .card-base {
+    @apply bg-white rounded-xl shadow-lg p-6 md:p-8 transition-shadow duration-300 hover:shadow-2xl;
+  }
+
+  /* A floating modal style for pop-ups */
+  .modal-floating {
+    @apply bg-white rounded-xl shadow-2xl p-6 m-4 w-full max-w-lg animate-pop-in;
+  }
+
+  /* Primary action button style */
+  .btn-primary {
+    @apply bg-blue-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-transform duration-200;
+    @apply hover:bg-blue-700 hover:scale-105;
+    @apply focus:outline-none focus:ring-4 focus:ring-blue-300;
+  }
+
+  /* Secondary action button style */
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg transition-colors duration-200;
+    @apply hover:bg-gray-300;
+    @apply focus:outline-none focus:ring-4 focus:ring-gray-300;
+  }
+  
+  /* Destructive action button style (e.g., Delete) */
+  .btn-danger {
+    @apply bg-red-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-transform duration-200;
+    @apply hover:bg-red-700 hover:scale-105;
+    @apply focus:outline-none focus:ring-4 focus:ring-red-300;
+  }
+
+  /* Floating Action Button (FAB) - great for mobile assistance/chat */
+  .btn-fab {
+    @apply fixed bottom-6 right-6 bg-accent text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg;
+    @apply hover:bg-blue-700 transition-all duration-300 transform hover:scale-110;
+    /* Add a subtle pop-in animation */
+    animation: pop-in 0.5s ease-out forwards;
+  }
+
+  /* A class for input fields to ensure they all look the same */
+  .input-base {
+      @apply w-full px-4 py-2 border border-gray-300 rounded-lg;
+      @apply focus:ring-blue-500 focus:border-blue-500 transition duration-200;
+  }
+}
+
+/*
+================================================================
+4. CUSTOM UTILITIES & ANIMATIONS
+----------------------------------------------------------------
+You can add small, custom utility classes or animations here.
+================================================================
+*/
+@layer utilities {
+  /* A subtle animation for new items appearing in a list */
+  .fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* A pop-in animation for floating elements like modals or FABs */
+  .pop-in {
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  @keyframes popIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+```
+

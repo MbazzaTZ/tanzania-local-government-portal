@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Information Hub | Tanzania Local Government</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3f4f6; /* Light gray background */
+      color: #374151; /* Dark gray text */
+    }
+    header {
+      background-color: #1f2937; /* Darker gray for header */
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: bold;
+      margin: 0;
+    }
+    .nav-right {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .nav-right select, .nav-right button {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+    .nav-right select {
+      background-color: #374151;
+      color: white;
+      appearance: none; /* Remove default select arrow */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem;
+    }
+    .nav-right button {
+      background-color: #4f46e5; /* Indigo */
+      color: white;
+    }
+    .nav-right button:hover {
+      background-color: #4338ca; /* Darker indigo */
+      transform: translateY(-2px);
+    }
+    main {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    section {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    .card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.75rem;
+    }
+    .card p {
+      color: #4b5563;
+      margin-bottom: 1.5rem;
+      flex-grow: 1; /* Allow description to take available space */
+    }
+    .card button {
+      background-color: #22c55e; /* Green */
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+    .card button:hover {
+      background-color: #16a34a; /* Darker green */
+      transform: translateY(-2px);
+    }
+    #faqs ul {
+      list-style: none;
+      padding: 0;
+    }
+    #faqs li {
+      background-color: #e0f2f7; /* Light blue for FAQ items */
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      border-left: 5px solid #0ea5e9; /* Blue border */
+    }
+    #faqs li strong {
+      color: #1f2937;
+    }
+    footer {
+      background-color: #1f2937;
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+
+    /* Dark theme styles */
+    body.dark-theme {
+      background-color: #1a202c;
+      color: #e2e8f0;
+    }
+    body.dark-theme header {
+      background-color: #2d3748;
+    }
+    body.dark-theme .nav-right select {
+      background-color: #4a5568;
+      color: #e2e8f0;
+    }
+    body.dark-theme section, body.dark-theme .card {
+      background-color: #2d3748;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    body.dark-theme .card h3 {
+      color: #e2e8f0;
+    }
+    body.dark-theme .card p {
+      color: #a0aec0;
+    }
+    body.dark-theme #faqs li {
+      background-color: #2c5282;
+      border-left-color: #63b3ed;
+    }
+    body.dark-theme #faqs li strong {
+      color: #e2e8f0;
+    }
+    body.dark-theme footer {
+      background-color: #2d3748;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>🛈 Information Hub</h1>
+  <div class="nav-right">
+    <select id="lang-switch">
+      <option value="en">EN</option>
+      <option value="sw">SW</option>
+    </select>
+    <button class="theme-toggle" onclick="toggleTheme()">🌗 Theme</button>
+    <button onclick="window.location.href='/'">🏠 Home</button>
+  </div>
+</header>
+
+
+  <main>
+    <section>
+      <h2 id="info-title" class="text-2xl font-bold text-gray-800 mb-4">Public Resources</h2>
+      <p id="info-desc" class="text-gray-600">
+        Access government FAQs, application forms, citizen guides, news and contact links.
+      </p>
+    </section>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3 id="card1-title">📄 Downloadable Forms</h3>
+        <p id="card1-desc">Utambulisho, Kibali, and other official forms</p>
+        <button id="card1-btn" onclick="window.open('/assets/forms/utambulisho-form.pdf')">Download</button>
+      </div>
+      <div class="card">
+        <h3 id="card2-title">📚 FAQs</h3>
+        <p id="card2-desc">Frequently asked questions about local services</p>
+        <button id="card2-btn" onclick="window.location.href='#faqs'">View FAQs</button>
+      </div>
+      <div class="card">
+        <h3 id="card3-title">📰 News & Updates</h3>
+        <p id="card3-desc">Recent announcements and system updates</p>
+        <button id="card3-btn">Read More</button>
+      </div>
+      <div class="card">
+        <h3 id="card4-title">📞 Contact Info</h3>
+        <p id="card4-desc">Local government support phone numbers and emails</p>
+        <button id="card4-btn">Contact</button>
+      </div>
+    </div>
+
+    <section id="faqs" class="mt-12 text-left">
+      <h2 id="faqs-title" class="text-2xl font-bold text-gray-800 mb-6">Frequently Asked Questions</h2>
+      <ul>
+        <li class="mb-4">
+          <span id="faq1-q" class="font-semibold text-gray-700">Q: How do I apply for Kibali?</span>
+          <br /><span id="faq1-a" class="text-gray-600">A: Login to the Mwananchi Portal and click “Apply for Services”.</span>
+        </li>
+        <li class="mb-4">
+          <span id="faq2-q" class="font-semibold text-gray-700">Q: How do I pay for services?</span>
+          <br /><span id="faq2-a" class="text-gray-600">A: Use the payment form or enter your M-Pesa reference number.</span>
+        </li>
+        <li class="mb-4">
+          <span id="faq3-q" class="font-semibold text-gray-700">Q: What if my application is rejected?</span>
+          <br /><span id="faq3-a" class="text-gray-600">A: You can reapply or chat with your local officer for clarification.</span>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="mt-8">
+    Help | Contact | Terms | © 2025 Tanzania Smart Utilities
+  </footer>
+
+  <script>
+  // Theme toggle functionality
+  function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+    // Store user preference
+    if (document.body.classList.contains('dark-theme')) {
+      localStorage.setItem('theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+  // Apply saved theme on load
+  document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-theme');
+    }
+  });
+
+  // Language switch functionality
+  document.getElementById("lang-switch").addEventListener("change", function () {
+    const lang = this.value;
+    // Assuming JSON files are in /assets/
+    fetch(`/assets/${lang}.json`)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then(data => {
+        document.getElementById("info-title").textContent = data.info_title;
+        document.getElementById("info-desc").textContent = data.info_desc;
+
+        // Update cards
+        document.getElementById("card1-title").textContent = data.card_forms_title;
+        document.getElementById("card1-desc").textContent = data.card_forms_desc;
+        document.getElementById("card1-btn").textContent = data.card_forms_button;
+
+        document.getElementById("card2-title").textContent = data.card_faq_title;
+        document.getElementById("card2-desc").textContent = data.card_faq_desc;
+        document.getElementById("card2-btn").textContent = data.card_faq_button;
+
+        document.getElementById("card3-title").textContent = data.card_news_title;
+        document.getElementById("card3-desc").textContent = data.card_news_desc;
+        document.getElementById("card3-btn").textContent = data.card_news_button;
+
+        document.getElementById("card4-title").textContent = data.card_contact_title;
+        document.getElementById("card4-desc").textContent = data.card_contact_desc;
+        document.getElementById("card4-btn").textContent = data.card_contact_button;
+
+        // FAQs
+        document.getElementById("faqs-title").textContent = data.faqs_title;
+        document.getElementById("faq1-q").textContent = "Q: " + data.faq1_q;
+        document.getElementById("faq1-a").textContent = "A: " + data.faq1_a;
+        document.getElementById("faq2-q").textContent = "Q: " + data.faq2_q;
+        document.getElementById("faq2-a").textContent = "A: " + data.faq2_a;
+        document.getElementById("faq3-q").textContent = "Q: " + data.faq3_q;
+        document.getElementById("faq3-a").textContent = "A: " + data.faq3_a;
+      })
+      .catch(error => console.error("Error loading language data:", error));
+  });
+
+  // Load default language on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("lang-switch").dispatchEvent(new Event('change'));
+  });
+  </script>
+
+</body>
+</html>

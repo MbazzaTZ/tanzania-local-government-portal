@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hati ya Kufungua Kesi</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .document-container {
+            background-color: white;
+            padding: 2rem;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 21cm; /* A4 width */
+            min-height: 29.7cm; /* A4 height */
+            box-sizing: border-box;
+            position: relative;
+        }
+        @media print {
+            body {
+                background-color: white;
+                margin: 0;
+                padding: 0;
+            }
+            .document-container {
+                border: none;
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+                min-height: auto;
+            }
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="flex flex-col items-center">
+        <button onclick="window.print()" class="print-button bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-4">
+            Chapisha Hati (Print Document)
+        </button>
+        <div id="printableCaseDocumentArea" class="document-container">
+            <!-- Content will be generated here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Helper function to format numbers as currency (reused)
+        function formatNumber(num) {
+            return new Intl.NumberFormat('sw-TZ').format(num);
+        }
+
+        // Function to generate the printable case document content
+        function generatePrintableCaseDocument(item, container) {
+            const itemWard = item.ward || 'Magomeni'; // Default if ward is missing
+            const itemStreet = item.street || 'Suna'; // Default if street is missing
+            const caseId = item.id || 'CASE/0000/2025';
+            const registrationDate = item.date || new Date().toLocaleDateString('sw-TZ');
+            const caseCategory = item.category || 'Haijabainishwa';
+            const caseSubject = item.subject || 'Hakuna Mada';
+            const complainant = item.complainant || 'Jina la Mlalamikaji';
+            const respondent = item.respondent || 'Jina la Mlalamikiwa';
+            const caseDetails = item.details || 'Hakuna maelezo ya kina yaliyotolewa.';
+            const caseFee = item.fee || 0;
+
+            container.innerHTML = `
+                <div class="text-black">
+                    <div class="text-center mb-8">
+                        <img src="http://www.dcc.go.tz/themes/mikumi/assets/images/ngao.png" alt="Tanzania Emblem" class="h-20 mx-auto mb-4">
+                        <p class="font-bold text-sm">Jamhuri ya Muungano wa Tanzania</p>
+                        <p class="text-sm">Ofisi ya Rais, Tawala za Mikoa na Mamlaka za Serikali za Mitaa</p>
+                        <p class="text-sm">Halmashauri ya Jiji la Dar es Salaam</p>
+                        <p class="font-bold mt-2">SERIKALI YA MTAA WA ${itemStreet.toUpperCase()}</p>
+                        <p class="font-bold">KATA YA ${itemWard.toUpperCase()}</p>
+                        <hr class="my-4 border-black">
+                        <h4 class="text-xl font-bold mt-4">FOMU YA USAJILI WA KESI</h4>
+                    </div>
+                    <p class="mb-4"><strong>Namba ya Kesi:</strong> ${caseId}</p>
+                    <p class="mb-6"><strong>Tarehe ya Usajili:</strong> ${registrationDate}</p>
+
+                    <table class="w-full border-collapse border border-black mb-6">
+                        <tbody>
+                            <tr><td class="border border-black p-2 font-bold" colspan="2">TAARIFA ZA KESI</td></tr>
+                            <tr><td class="border border-black p-2 w-1/3">Aina ya Kesi:</td><td class="border border-black p-2">${caseCategory}</td></tr>
+                            <tr><td class="border border-black p-2">Mada:</td><td class="border border-black p-2">${caseSubject}</td></tr>
+                            <tr><td class="border border-black p-2 font-bold" colspan="2">WADAU</td></tr>
+                            <tr><td class="border border-black p-2">Mlalamikaji:</td><td class="border border-black p-2">${complainant}</td></tr>
+                            <tr><td class="border border-black p-2">Mlalamikiwa:</td><td class="border border-black p-2">${respondent}</td></tr>
+                            <tr><td class="border border-black p-2 font-bold" colspan="2">MAELEZO</td></tr>
+                            <tr><td class="border border-black p-2" colspan="2">${caseDetails}</td></tr>
+                            <tr><td class="border border-black p-2 font-bold" colspan="2">MALIPO</td></tr>
+                            <tr><td class="border border-black p-2">Ada ya Kesi:</td><td class="border border-black p-2">TSh ${formatNumber(caseFee)}</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p class="mb-4">Nathibitisha kuwa taarifa nilizotoa hapo juu ni za kweli.</p>
+
+                    <div class="mt-16 grid grid-cols-2 gap-8">
+                        <div>
+                            <p>Sahihi ya Mlalamikaji: ..............................</p>
+                        </div>
+                        <div>
+                            <p>Sahihi ya Mpokeaji: ..............................</p>
+                            <p class="mt-4">Jina: .....................................................</p>
+                            <p class="mt-4">Muhuri:</p>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        // Sample data for a Case Registration Document (replace with actual data from your Firebase/Firestore)
+        const sampleCaseDocument = {
+            id: "Kesi/ILALA/2025/007",
+            date: new Date().toLocaleDateString('sw-TZ'),
+            category: "Mgogoro wa Ardhi Mdogo",
+            subject: "Mpaka wa Kiwanja",
+            complainant: "Hamisi Juma",
+            respondent: "Fatma Ally",
+            details: "Kesi inahusu mgogoro wa mpaka wa kiwanja namba 123, Mtaa wa Majengo. Mlalamikaji anadai mlalamikiwa amevuka mpaka wa shamba lake.",
+            fee: 50000,
+            district: "Ilala",
+            ward: "Ukonga",
+            street: "Mzinga"
+        };
+
+        // Call the function when the window loads
+        window.onload = function() {
+            const printableArea = document.getElementById('printableCaseDocumentArea');
+            generatePrintableCaseDocument(sampleCaseDocument, printableArea);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hati ya Utambulisho</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- JsBarcode CDN for barcode generation -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .letter-container {
+            background-color: white;
+            padding: 2rem;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 21cm; /* A4 width */
+            min-height: 29.7cm; /* A4 height */
+            box-sizing: border-box;
+            position: relative;
+        }
+        @media print {
+            body {
+                background-color: white;
+                margin: 0;
+                padding: 0;
+            }
+            .letter-container {
+                border: none;
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+                min-height: auto;
+            }
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="flex flex-col items-center">
+        <button onclick="window.print()" class="print-button bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-4">
+            Chapisha Hati (Print Letter)
+        </button>
+        <div id="printableArea" class="letter-container text-gray-800">
+            <!-- Content will be generated here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Function to generate the printable letter content
+        function generatePrintableLetter(item, container) {
+            const itemWard = item.ward || 'Magomeni'; // Default if ward is missing
+            const itemStreet = item.street || 'Suna'; // Default if street is missing
+            const applicantName = item.fullName || 'Jina Kamili La Mwombaji';
+            const nida = item.nidaNumber || 'XXXXXXXX-XXXXX-XXXX';
+            const recipientName = item.recipientName || 'Mpokeaji/Taasisi Husika';
+            const recipientAddress = item.recipientAddress || 'S.L.P. 12345, Dar es Salaam';
+            const purpose = item.purpose || 'madhumuni ya utambulisho';
+            const photoUrl = item.applicantImage || 'https://placehold.co/96x96/e0e0e0/000000?text=Picha'; // Placeholder image
+
+            container.innerHTML = `
+                <div class="relative">
+                    <div class="absolute top-0 right-0">
+                        <img src="${photoUrl}" alt="Picha ya Mwombaji" class="w-24 h-24 object-cover border-2 border-black">
+                    </div>
+                    <div class="text-center mb-8">
+                        <img src="http://www.dcc.go.tz/themes/mikumi/assets/images/ngao.png" alt="Tanzania Emblem" class="h-20 mx-auto mb-4">
+                        <p class="font-bold text-sm">Jamhuri ya Muungano wa Tanzania</p>
+                        <p class="text-sm">Ofisi ya Rais, Tawala za Mikoa na Mamlaka za Serikali za Mitaa</p>
+                        <p class="text-sm">Halmashauri ya Jiji la Dar es Salaam</p>
+                        <p class="font-bold mt-2">SERIKALI YA MTAA WA ${itemStreet.toUpperCase()}</p>
+                        <p class="font-bold">KATA YA ${itemWard.toUpperCase()}</p>
+                        <hr class="my-4 border-black">
+                        <h4 class="text-xl font-bold mt-4">BARUA YA UTAMBULISHO WA MAKAZI</h4>
+                    </div>
+                    <p class="mb-4"><strong>Kumb. Na:</strong> WEO/${itemWard ? itemWard.slice(0,3).toUpperCase() : 'KAT'}/${item.id || '001'}/${new Date().getFullYear()}</p>
+                    <p class="mb-4"><strong>Tarehe:</strong> ${new Date().toLocaleDateString('sw-TZ')}</p>
+                    <p class="mb-4"><strong>KWA:</strong><br>${recipientName}<br>${recipientAddress}</p>
+                    <p class="mb-6 font-bold text-center">YAH: KUMTHIBITISHA BW./BI. ${applicantName.toUpperCase()}</p>
+                    <p class="mb-4">Ofisi ya Mtendaji wa Kata ya ${itemWard} inamtambua na kumthibitisha mtu tajwa hapo juu mwenye Namba ya Kitambulisho cha Taifa (NIDA) <strong>${nida}</strong> kuwa ni mkazi halali wa Mtaa wa ${itemStreet}.</p>
+                    <p class="mb-6">Barua hii imetolewa kwa madhumuni ya ${purpose.toLowerCase()} na si vinginevyo.</p>
+                    <div class="mt-12 flex justify-between items-end">
+                        <div>
+                            <div class="mt-16">
+                                <p>....................................................</p>
+                                <p class="font-bold">MTENDAJI KATA</p>
+                                <p>Kata ya ${itemWard}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <svg id="barcode"></svg>
+                        </div>
+                    </div>
+                </div>
+            `;
+            try {
+                // Generate barcode using the item's ID or a placeholder
+                JsBarcode(container.querySelector("#barcode"), item.id || "SAMPLE12345", { format: "CODE128", lineColor: "#000", width: 2, height: 50, displayValue: false });
+            } catch(e) {
+                console.error("Barcode generation failed", e);
+            }
+        }
+
+        // Sample data (replace with actual data from your Firebase/Firestore)
+        const sampleIdentityRequest = {
+            id: "REQ0012345",
+            fullName: "Aisha Juma",
+            nidaNumber: "1990123456789012",
+            district: "Ilala",
+            ward: "Ukonga",
+            street: "Mzinga",
+            recipientName: "Meneja, Benki ya CRDB",
+            recipientAddress: "S.L.P. 12345, Dar es Salaam",
+            purpose: "Kufungua Akaunti ya Benki",
+            applicantImage: "https://placehold.co/96x96/1e40af/ffffff?text=Mwombaji" // Example placeholder image
+        };
+
+        // Call the function when the window loads
+        window.onload = function() {
+            const printableArea = document.getElementById('printableArea');
+            generatePrintableLetter(sampleIdentityRequest, printableArea);
+        };
+    </script>
+</body>
+</html>

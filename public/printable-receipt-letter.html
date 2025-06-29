@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risiti ya Malipo</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- JsBarcode CDN for barcode generation -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .receipt-container {
+            background-color: white;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            width: 8cm; /* Typical receipt width */
+            box-sizing: border-box;
+            position: relative;
+        }
+        @media print {
+            body {
+                background-color: white;
+                margin: 0;
+                padding: 0;
+            }
+            .receipt-container {
+                border: none;
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+                min-height: auto;
+            }
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="flex flex-col items-center">
+        <button onclick="window.print()" class="print-button bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-4">
+            Chapisha Risiti (Print Receipt)
+        </button>
+        <div id="printableReceiptArea" class="receipt-container">
+            <!-- Content will be generated here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Helper function to format numbers as currency
+        function formatNumber(num) {
+            return new Intl.NumberFormat('sw-TZ').format(num);
+        }
+
+        // Function to generate the printable receipt content
+        function generatePrintableReceipt(item, container) {
+            const itemWard = item.ward || 'Magomeni'; // Default if ward is missing
+            const displayType = item.subType ? `${item.type} (${item.subType})` : item.type;
+            const receiptDate = item.date || new Date().toLocaleDateString('sw-TZ'); // Default to current date if missing
+
+            container.innerHTML = `
+                <div class="text-xs font-mono text-black p-2">
+                    <div class="text-center mb-2">
+                        <img src="http://www.dcc.go.tz/themes/mikumi/assets/images/ngao.png" alt="Tanzania Emblem" class="h-16 mx-auto mb-1">
+                        <p class="font-bold">Halmashauri ya Jiji la Dar es Salaam</p>
+                        <p class="font-bold">KATA YA ${itemWard.toUpperCase()}</p>
+                        <p>RISITI YA MALIPO</p>
+                    </div>
+                    <p>----------------------------------------</p>
+                    <div class="grid grid-cols-2 gap-x-2">
+                        <p>Risiti Na.:</p> <p class="text-right">${item.id || 'N/A'}</p>
+                        <p>Tarehe:</p>    <p class="text-right">${receiptDate}</p>
+                        <p>Mlipaji:</p>     <p class="text-right">${item.name || 'N/A'}</p>
+                        <p>NIDA:</p>       <p class="text-right">${item.nida || 'N/A'}</p>
+                    </div>
+                    <p>----------------------------------------</p>
+                    <p class="font-bold">MAELEZO:</p>
+                    <div class="grid grid-cols-3 gap-x-1 my-2">
+                        <p class="col-span-2">${displayType}</p>
+                        <p class="text-right">${formatNumber(item.amount || 0)}</p>
+                    </div>
+                    <p>----------------------------------------</p>
+                    <div class="grid grid-cols-2 gap-x-2 font-bold text-sm">
+                        <p>JUMLA (TSh):</p>
+                        <p class="text-right">${formatNumber(item.amount || 0)}</p>
+                    </div>
+                    <p class="text-center text-xs my-2">Umepokelewa na Mtendaji wa Kata.</p>
+                    <div class="flex justify-center my-2">
+                        <svg id="barcode-receipt"></svg>
+                    </div>
+                    <p class="text-center text-xs">Asante kwa kulipa.</p>
+                </div>`;
+            try {
+                // Generate barcode using the item's ID or a placeholder
+                JsBarcode(container.querySelector("#barcode-receipt"), item.id || "RECEIPT12345", { format: "CODE128", width: 1.5, height: 40, displayValue: true, fontSize: 10 });
+            } catch(e) {
+                console.error("Barcode generation failed", e);
+            }
+        }
+
+        // Sample data for a Payment Receipt (replace with actual data from your Firebase/Firestore)
+        const samplePayment = {
+            id: "PAY00010203",
+            date: new Date().toLocaleDateString('sw-TZ'),
+            name: "Neema Charles",
+            nida: "1995010203040506",
+            type: "Ada za Huduma",
+            subType: "Ada ya Leseni ya Biashara", // Optional, depending on payment type
+            amount: 75000,
+            ward: "Ukonga"
+        };
+
+        // Call the function when the window loads
+        window.onload = function() {
+            const printableArea = document.getElementById('printableReceiptArea');
+            generatePrintableReceipt(samplePayment, printableArea);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "info_title": "Rasilimali za Umma",
+  "info_desc": "Pata Maswali ya Mara kwa Mara, fomu za maombi, miongozo ya raia, habari na mawasiliano.",
+
+  "card_forms_title": "📄 Fomu Zinazopakuliwa",
+  "card_forms_desc": "Fomu za Utambulisho, Kibali, na nyingine rasmi",
+  "card_forms_button": "Pakua",
+
+  "card_faq_title": "📚 Maswali ya Mara kwa Mara",
+  "card_faq_desc": "Maswali na Majibu kuhusu huduma za serikali za mitaa",
+  "card_faq_button": "Tazama Maswali",
+
+  "card_news_title": "📰 Habari & Taarifa",
+  "card_news_desc": "Tangazo na masasisho ya hivi karibuni",
+  "card_news_button": "Soma Zaidi",
+
+  "card_contact_title": "📞 Mawasiliano",
+  "card_contact_desc": "Nambari za simu na barua pepe za serikali za mitaa",
+  "card_contact_button": "Wasiliana",
+
+  "faqs_title": "Maswali Yanayoulizwa Mara kwa Mara",
+  "faq1_q": "Ninaombaje Kibali?",
+  "faq1_a": "Ingia kwenye Portal ya Mwananchi na bofya 'Omba Huduma'.",
+  "faq2_q": "Ninapaje huduma?",
+  "faq2_a": "Tumia fomu ya malipo au ingiza namba ya kumbukumbu ya M-Pesa.",
+  "faq3_q": "Je, ikitokea maombi yangu yamekataliwa?",
+  "faq3_a": "Unaweza kuomba tena au kuwasiliana na afisa wako wa eneo kwa maelezo zaidi."
+}

@@ -1,0 +1,28 @@
+{
+  "info_title": "Public Resources",
+  "info_desc": "Access government FAQs, application forms, citizen guides, news and contact links.",
+
+  "card_forms_title": "📄 Downloadable Forms",
+  "card_forms_desc": "Utambulisho, Kibali, and other official forms",
+  "card_forms_button": "Download",
+
+  "card_faq_title": "📚 FAQs",
+  "card_faq_desc": "Frequently asked questions about local government services",
+  "card_faq_button": "View FAQs",
+
+  "card_news_title": "📰 News & Updates",
+  "card_news_desc": "Recent announcements and system updates",
+  "card_news_button": "Read More",
+
+  "card_contact_title": "📞 Contact Info",
+  "card_contact_desc": "Local government support phone numbers and emails",
+  "card_contact_button": "Contact",
+
+  "faqs_title": "Frequently Asked Questions",
+  "faq1_q": "How do I apply for Kibali?",
+  "faq1_a": "Login to the Mwananchi Portal and click 'Apply for Services'.",
+  "faq2_q": "How do I pay for services?",
+  "faq2_a": "Use the payment form or enter your M-Pesa reference number.",
+  "faq3_q": "What if my application is rejected?",
+  "faq3_a": "You can reapply or chat with your local officer for clarification."
+}
